@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: agri_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: agri
+      POSTGRES_PASSWORD: agri_pwd
+      POSTGRES_DB: agri_procurement
+    volumes:
+      - agri_pgdata:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: agri_rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: agri
+      RABBITMQ_DEFAULT_PASS: agri_pwd
+
+volumes:
+  agri_pgdata:
