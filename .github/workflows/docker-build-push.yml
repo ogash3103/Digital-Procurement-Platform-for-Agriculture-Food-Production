@@ -26,9 +26,10 @@ jobs:
       - name: Build and push logistics image
         uses: docker/build-push-action@v5
         with:
-          context: src/Modules/Logistics/Logistics.Api
-          file: Dockerfile
+          context: .
+          file: src/Modules/Logistics/Logistics.Api/Dockerfile
           push: true
           tags: |
             ogabek0331/logistics:latest
             ogabek0331/logistics:${{ github.sha }}
+      
