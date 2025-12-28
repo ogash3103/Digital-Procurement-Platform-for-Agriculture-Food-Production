@@ -1,15 +1,26 @@
-name: Build & Push Logistics Image
+name: Build & Push Images (Logistics + Procurement)
 
 on:
   push:
     branches: [ "main" ]
     paths:
       - "src/Modules/Logistics/Logistics.Api/**"
+      - "src/Modules/Procurement/Procurement.Api/**"
       - ".github/workflows/docker-build-push.yml"
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - name: logistics
+            dockerfile: src/Modules/Logistics/Logistics.Api/Dockerfile
+          - name: procurement
+            dockerfile: src/Modules/Procurement/Procurement.Api/Dockerfile
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,13 +34,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push logistics image
+      - name: Build and push ${{ matrix.service.name }} image
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: src/Modules/Logistics/Logistics.Api/Dockerfile
+          file: ${{ matrix.service.dockerfile }}
           push: true
           tags: |
-            ogabek0331/logistics:latest
-            ogabek0331/logistics:${{ github.sha }}
-      
+            ogabek0331/${{ matrix.service.name }}:latest
+            ogabek0331/${{ matrix.service.name }}:${{ github.sha }}
