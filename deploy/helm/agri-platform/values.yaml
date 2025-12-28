@@ -1,0 +1,28 @@
+global:
+  imagePullPolicy: IfNotPresent
+
+logistics:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: ogabek0331/logistics
+    tag: latest
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 8080
+  env:
+    ASPNETCORE_ENVIRONMENT: "Development"
+
+procurement:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: ogabek0331/procurement
+    tag: latest
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 8080
+  env:
+    ASPNETCORE_ENVIRONMENT: "Development"
