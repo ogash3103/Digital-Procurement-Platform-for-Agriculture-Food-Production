@@ -1,0 +1,27 @@
+{{- if .Values.procurement.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: procurement
+  labels:
+    {{- include "agri-platform.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.procurement.replicaCount }}
+  selector:
+    matchLabels:
+      app: procurement
+  template:
+    metadata:
+      labels:
+        app: procurement
+    spec:
+      containers:
+        - name: procurement
+          image: "{{ .Values.procurement.image.repository }}:{{ .Values.procurement.image.tag }}"
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.procurement.service.targetPort }}
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "{{ .Values.procurement.env.ASPNETCORE_ENVIRONMENT }}"
+  {{- end }}

@@ -1,0 +1,27 @@
+{{- if .Values.logistics.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logistics
+  labels:
+    {{- include "agri-platform.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.logistics.replicaCount }}
+  selector:
+    matchLabels:
+      app: logistics
+  template:
+    metadata:
+      labels:
+        app: logistics
+    spec:
+      containers:
+        - name: logistics
+          image: "{{ .Values.logistics.image.repository }}:{{ .Values.logistics.image.tag }}"
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.logistics.service.targetPort }}
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "{{ .Values.logistics.env.ASPNETCORE_ENVIRONMENT }}"
+  {{- end }}

@@ -1,0 +1,15 @@
+{{- if .Values.logistics.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: logistics
+  labels:
+    {{- include "agri-platform.labels" . | nindent 4 }}
+spec:
+  selector:
+    app: logistics
+  type: {{ .Values.logistics.service.type }}
+  ports:
+    - port: {{ .Values.logistics.service.port }}
+      targetPort: {{ .Values.logistics.service.targetPort }}
+  {{- end }}

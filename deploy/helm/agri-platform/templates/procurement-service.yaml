@@ -1,0 +1,15 @@
+{{- if .Values.procurement.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: procurement
+  labels:
+    {{- include "agri-platform.labels" . | nindent 4 }}
+spec:
+  selector:
+    app: procurement
+  type: {{ .Values.procurement.service.type }}
+  ports:
+    - port: {{ .Values.procurement.service.port }}
+      targetPort: {{ .Values.procurement.service.targetPort }}
+  {{- end }}
