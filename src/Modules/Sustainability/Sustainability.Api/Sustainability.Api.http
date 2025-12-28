@@ -1,0 +1,6 @@
+@Sustainability.Api_HostAddress = http://localhost:5275
+
+GET {{Sustainability.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

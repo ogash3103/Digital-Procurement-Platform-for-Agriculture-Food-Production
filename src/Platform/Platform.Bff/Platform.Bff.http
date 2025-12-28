@@ -1,0 +1,6 @@
+@Platform.Bff_HostAddress = http://localhost:5211
+
+GET {{Platform.Bff_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

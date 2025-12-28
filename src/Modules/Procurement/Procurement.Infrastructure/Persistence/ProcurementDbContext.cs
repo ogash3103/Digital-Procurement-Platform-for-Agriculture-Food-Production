@@ -17,12 +17,12 @@ public sealed class ProcurementDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         
-        // ✅ RFQ table mapping
+        
         modelBuilder.Entity<Rfq>(b =>
         {
             b.ToTable("rfqs");
             b.HasKey(x => x.Id);
-            // kerak bo‘lsa Title va boshqa property mappinglarni ham shu yerga yozasiz
+            
         });
 
 

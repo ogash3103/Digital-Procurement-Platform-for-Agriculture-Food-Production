@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logistics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logistics
+  template:
+    metadata:
+      labels:
+        app: logistics
+    spec:
+      containers:
+        - name: logistics
+          image: ogabek0331/logistics:0.1.0
+          ports:
+            - containerPort: 8080
+
+          # 1) envFrom alohida (ConfigMap dan hamma keylarni oladi)
+          envFrom:
+            - configMapRef:
+                name: logistics-config
+
+          # 2) env alohida (bitta-ikkita override uchun)
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logistics
+spec:
+  selector:
+    app: logistics
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: ClusterIP
